@@ -1,9 +1,9 @@
 import React from "react";
-import Card from "components/Card";
+import Card from "containers/Card";
 import AsyncComponent from "components/hoc/AsyncComponent";
 import placeholderImg from "assets/img/placeholder.jpeg";
 import { CharacterStatus, CharacterType } from "api/characters/types";
-import useCharacterList from "hooks/useCharacterList";
+import useCharacterList from "containers/Home/useCharacterList";
 
 const CharacterList = () => {
   const { setFilterStatus, setSearch, ref, characterPages, charactersStatus } =
@@ -69,7 +69,7 @@ const CharacterList = () => {
         />
       </div>
 
-      <div className="card-container grid grid-flow-row grid-cols-2 gap-4 px-4 md:grid-cols-5">
+      <div className="card-container grid grid-flow-row grid-cols-1 gap-4 px-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         <AsyncComponent
           component={
             <>
