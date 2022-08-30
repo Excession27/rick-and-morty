@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "system",
+    "moduleResolution": "node",
+    "resolveJsonModule": false,
+    "isolatedModules": false,
+    "jsx": "react-jsx",
+    "outDir": "build",
+    "rootDir": "./",
+    "baseUrl": "src/",
+    "paths": {
+      "components/*": [
+        "components/*"
+      ],
+      "containers/*": [
+        "containers/*"
+      ],
+      "hooks/*": [
+        "hooks/*"
+      ],
+      "assets/*": [
+        "assets/*"
+      ],
+      "components": [
+        "components/*"
+      ],
+      "api/*": [
+        "api/*"
+      ]
+    },
+    "outFile": "build/index.js"
+  },
+  "include": [
+    "src/*",
+    "./jest.config.ts",
+    "src/**/*.ts"
+  ]
+}
