@@ -1,9 +1,9 @@
 import React from "react";
-import Card from "containers/Card";
-import AsyncComponent from "components/hoc/AsyncComponent";
+import Card from "containers/Home/components/CharacterList/Card";
+import AsyncComponent from "components/providers/AsyncComponent/AsyncComponent";
 import placeholderImg from "assets/img/placeholder.jpeg";
 import { CharacterStatus, CharacterType } from "api/characters/types";
-import useCharacterList from "containers/Home/useCharacterList";
+import useCharacterList from "containers/Home/components/CharacterList/useCharacterList";
 
 const CharacterList = () => {
   const { setFilterStatus, setSearch, ref, characterPages, charactersStatus } =

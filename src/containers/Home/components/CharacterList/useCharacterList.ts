@@ -3,7 +3,7 @@ import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "react-query";
 import axiosInstance from "api/axiosInstance";
 import { PageDataType } from "api/types";
-import useDebounce from "../../hooks/useDebounce";
+import useDebounce from "../../../../hooks/useDebounce/useDebounce";
 
 const useCharacterList = () => {
   const [filter, setFilter] = useState<{

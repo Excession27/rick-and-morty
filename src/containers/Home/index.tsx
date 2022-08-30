@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "components/layout/Header";
-import CharacterList from "./CharacterList";
+import CharacterList from "./components/CharacterList/CharacterList";
 
 const Home = () => {
   return (
