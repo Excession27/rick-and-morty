@@ -4,6 +4,7 @@ import { useInfiniteQuery } from "react-query";
 import axiosInstance from "api/axiosInstance";
 import { PageDataType } from "api/types";
 import useDebounce from "../../../../hooks/useDebounce/useDebounce";
+import { ScrollEvent } from "api/characters/types";
 
 // Depending on the parameters supplied a different API endpoint will be called,
 // however after the first run useInfiniteQuery provides a special query for the next pages thus the last IF statement
@@ -49,11 +50,7 @@ const useCharacterList = () => {
   } = useInfiniteQuery<PageDataType>(
     ["filter-query", filter],
     async ({ pageParam = "character" }) => {
-      let data: any;
-
-      data = axiosInstance.get(getQuery(filter.name, filter.status, pageParam));
-
-      return data;
+      return axiosInstance.get(getQuery(filter.name, filter.status, pageParam));
     },
     {
       getPreviousPageParam: (firstPage) => {
@@ -69,7 +66,6 @@ const useCharacterList = () => {
           const next = lastPage.data.info.next?.split(
             "https://rickandmortyapi.com/api/"
           );
-
           return next[1];
         }
       },
@@ -78,10 +74,21 @@ const useCharacterList = () => {
 
   // Check to see viewport position in order to fetch next page
   useEffect(() => {
-    if (inView) {
-      fetchNextPage();
-    }
-  }, [inView, fetchNextPage]);
+    const onScroll = (event: ScrollEvent) => {
+      if (
+        event.target.scrollingElement.scrollTop >
+        event.target?.scrollingElement.scrollTopMax - 20
+      ) {
+        fetchNextPage();
+      }
+    };
+
+    window.addEventListener("scroll", (e: any) => onScroll(e));
+
+    return () => {
+      window.removeEventListener("scroll", (e: any) => onScroll(e));
+    };
+  }, [fetchNextPage]);
 
   const debouncedSearch = useDebounce(search, 400);
 

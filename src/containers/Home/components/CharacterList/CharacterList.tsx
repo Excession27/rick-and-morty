@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import Card from "containers/Home/components/CharacterList/Card";
 import AsyncComponent from "components/providers/AsyncComponent/AsyncComponent";
 import placeholderImg from "assets/img/placeholder.jpeg";
@@ -17,7 +17,7 @@ const CharacterList = () => {
       >
         <div
           className="flex flex-wrap gap-2 py-4 px-2"
-          onChange={(event: any) => {
+          onChange={(event: ChangeEvent<HTMLInputElement>) => {
             setFilterStatus(event.target.value);
           }}
         >
