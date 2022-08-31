@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "react-query";
 import axiosInstance from "api/axiosInstance";
