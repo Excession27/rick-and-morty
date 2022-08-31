@@ -68,7 +68,6 @@ const CharacterList = () => {
           onChange={(event) => setSearch(event.target.value)}
         />
       </div>
-
       <div className="card-container grid grid-flow-row grid-cols-1 gap-4 px-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         <AsyncComponent
           component={
@@ -94,7 +93,6 @@ const CharacterList = () => {
           skeleton={<Card image={placeholderImg} name={charactersStatus} />}
         />
       </div>
-      <div></div>
     </div>
   );
 };

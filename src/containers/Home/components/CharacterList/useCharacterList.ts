@@ -1,9 +1,24 @@
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useLayoutEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "react-query";
 import axiosInstance from "api/axiosInstance";
 import { PageDataType } from "api/types";
 import useDebounce from "../../../../hooks/useDebounce/useDebounce";
+
+// Depending on the parameters supplied a different API endpoint will be called,
+// however after the first run useInfiniteQuery provides a special query for the next pages thus the last IF statement
+const getQuery = (name: string, status: string, param: string) => {
+  let query: string = "character";
+  let firstRun: boolean = param.length < 10;
+
+  if (name.length > 1 && firstRun) query = `character/?name=${name}`;
+  if (status.length > 1 && firstRun) query = `character/?status=${status}`;
+  if (name.length > 1 && status.length > 1 && firstRun)
+    query = `character/?name=${name}&status=${status}`;
+  if (!firstRun) query = param;
+
+  return query;
+};
 
 const useCharacterList = () => {
   const [filter, setFilter] = useState<{
@@ -27,21 +42,6 @@ const useCharacterList = () => {
 
   const { ref, inView } = useInView({ threshold: 0.4 });
 
-  // Depending on the parameters supplied a different API endpoint will be called,
-  // however after the first run useInfiniteQuery provides a special query for the next pages thus the last IF statement
-  const getQuery = (name: string, status: string, param: string) => {
-    let query: string = "character";
-    let firstRun: boolean = param.length < 10;
-
-    if (name.length > 1 && firstRun) query = `character/?name=${name}`;
-    if (status.length > 1 && firstRun) query = `character/?status=${status}`;
-    if (name.length > 1 && status.length > 1 && firstRun)
-      query = `character/?name=${name}&status=${status}`;
-    if (!firstRun) query = param;
-
-    return query;
-  };
-
   const {
     data: characterPages,
     status: charactersStatus,
@@ -49,13 +49,11 @@ const useCharacterList = () => {
   } = useInfiniteQuery<PageDataType>(
     ["filter-query", filter],
     async ({ pageParam = "character" }) => {
-      let datum: any;
+      let data: any;
 
-      datum = axiosInstance.get(
-        getQuery(filter.name, filter.status, pageParam)
-      );
+      data = axiosInstance.get(getQuery(filter.name, filter.status, pageParam));
 
-      return datum;
+      return data;
     },
     {
       getPreviousPageParam: (firstPage) => {
