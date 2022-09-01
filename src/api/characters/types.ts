@@ -1,5 +1,3 @@
-import { AxiosResponse } from "axios";
-
 export type CharacterType = {
   id: number;
   name: string;
@@ -21,4 +19,3 @@ export enum CharacterStatus {
   dead = "dead",
   unknown = "unknown",
 }
-export type APICall<CharacterType> = Promise<AxiosResponse<CharacterType[]>>;

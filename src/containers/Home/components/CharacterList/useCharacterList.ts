@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
-import axiosInstance from "api/axiosInstance";
 import { PageDataType } from "api/types";
 import useDebounce from "../../../../hooks/useDebounce/useDebounce";
+import { getCharacters } from "api/characters";
 
 // When searching/filtering pass the query with inputs, for subsequent pages just pass the params
-const getQuery = (name: string, status: string, param: string) => {
+const getQuery = (name: string, status: string, param: string): string => {
   let query: string = `character/?name=${name}&status=${status}`;
   let firstRun: boolean = param.length < 10;
 
@@ -39,7 +39,7 @@ const useCharacterList = () => {
   } = useInfiniteQuery<PageDataType>(
     ["filter-query", filter],
     async ({ pageParam = "character" }) => {
-      return axiosInstance.get(getQuery(filter.name, filter.status, pageParam));
+      return getCharacters(getQuery(filter.name, filter.status, pageParam));
     },
     {
       getPreviousPageParam: (firstPage) => {
