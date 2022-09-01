@@ -6,7 +6,7 @@ import { CharacterStatus, CharacterType } from "api/characters/types";
 import useCharacterList from "containers/Home/components/CharacterList/useCharacterList";
 
 const CharacterList = () => {
-  const { setFilterStatus, setSearch, ref, characterPages, charactersStatus } =
+  const { setFilterStatus, setSearch, characterPages, charactersStatus } =
     useCharacterList();
 
   return (
@@ -76,13 +76,11 @@ const CharacterList = () => {
                 page.data.results.map(
                   (character: CharacterType, index: number) => {
                     return (
-                      <div key={index} ref={ref}>
-                        <Card
-                          image={character.image}
-                          name={character.name}
-                          key={character.id}
-                        />
-                      </div>
+                      <Card
+                        image={character.image}
+                        name={character.name}
+                        key={character.id}
+                      />
                     );
                   }
                 )

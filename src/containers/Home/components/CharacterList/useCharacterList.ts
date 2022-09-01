@@ -1,21 +1,15 @@
 import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "react-query";
 import axiosInstance from "api/axiosInstance";
 import { PageDataType } from "api/types";
 import useDebounce from "../../../../hooks/useDebounce/useDebounce";
 import { ScrollEvent } from "api/characters/types";
 
-// Depending on the parameters supplied a different API endpoint will be called,
-// however after the first run useInfiniteQuery provides a special query for the next pages thus the last IF statement
+// When searching/filtering pass the query with inputs, for subsequent pages just pass the params
 const getQuery = (name: string, status: string, param: string) => {
-  let query: string = "character";
+  let query: string = `character/?name=${name}&status=${status}`;
   let firstRun: boolean = param.length < 10;
 
-  if (name.length > 1 && firstRun) query = `character/?name=${name}`;
-  if (status.length > 1 && firstRun) query = `character/?status=${status}`;
-  if (name.length > 1 && status.length > 1 && firstRun)
-    query = `character/?name=${name}&status=${status}`;
   if (!firstRun) query = param;
 
   return query;
@@ -25,11 +19,9 @@ const useCharacterList = () => {
   const [filter, setFilter] = useState<{
     name: string;
     status: string;
-    page: number;
   }>({
     name: "",
     status: "",
-    page: 0,
   });
 
   const setFilterStatus = (value: string) => {
@@ -40,8 +32,6 @@ const useCharacterList = () => {
   };
 
   const [search, setSearch] = useState<string>("");
-
-  const { ref, inView } = useInView({ threshold: 0.4 });
 
   const {
     data: characterPages,
@@ -77,7 +67,7 @@ const useCharacterList = () => {
     const onScroll = (event: ScrollEvent) => {
       if (
         event.target.scrollingElement.scrollTop >
-        event.target?.scrollingElement.scrollTopMax - 20
+        event.target.scrollingElement.scrollTopMax - 20
       ) {
         fetchNextPage();
       }
@@ -96,7 +86,7 @@ const useCharacterList = () => {
     setFilterName(debouncedSearch);
   }, [debouncedSearch]);
 
-  return { setFilterStatus, setSearch, ref, characterPages, charactersStatus };
+  return { setFilterStatus, setSearch, characterPages, charactersStatus };
 };
 
 export default useCharacterList;

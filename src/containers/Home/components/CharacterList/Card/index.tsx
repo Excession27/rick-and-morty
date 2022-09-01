@@ -7,8 +7,10 @@ const Card = ({ image, name }: { image: string; name: string }) => {
         name === "loading" && "animate-pulse"
       } flex-col rounded-lg bg-white`}
     >
-      <img className="rounded-t-lg" src={image} alt="" />
-      <h2 className="name truncate p-4 font-bold">{name}</h2>
+      <img className="flex-shrink rounded-t-lg" src={image} alt="" />
+      <h2 className="name flex-grow p-4 font-bold">
+        {name === "error" ? "Not found" : name}
+      </h2>
     </div>
   );
 };
