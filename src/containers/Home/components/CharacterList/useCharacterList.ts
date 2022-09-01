@@ -3,7 +3,6 @@ import { useInfiniteQuery } from "react-query";
 import axiosInstance from "api/axiosInstance";
 import { PageDataType } from "api/types";
 import useDebounce from "../../../../hooks/useDebounce/useDebounce";
-import { ScrollEvent } from "api/characters/types";
 
 // When searching/filtering pass the query with inputs, for subsequent pages just pass the params
 const getQuery = (name: string, status: string, param: string) => {
@@ -64,19 +63,21 @@ const useCharacterList = () => {
 
   // Check to see viewport position in order to fetch next page
   useEffect(() => {
-    const onScroll = (event: ScrollEvent) => {
-      if (
-        event.target.scrollingElement.scrollTop >
-        event.target.scrollingElement.scrollTopMax - 20
-      ) {
+    const loadOnScroll = () => {
+      const scrollTop = document.scrollingElement!.scrollTop;
+      const scrollTopMax =
+        document.scrollingElement!.scrollHeight -
+        document.scrollingElement!.clientHeight -
+        20;
+      if (scrollTop >= scrollTopMax) {
         fetchNextPage();
       }
     };
 
-    window.addEventListener("scroll", (e: any) => onScroll(e));
+    window.addEventListener("scroll", loadOnScroll);
 
     return () => {
-      window.removeEventListener("scroll", (e: any) => onScroll(e));
+      window.removeEventListener("scroll", loadOnScroll);
     };
   }, [fetchNextPage]);
 

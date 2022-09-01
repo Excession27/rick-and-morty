@@ -73,17 +73,15 @@ const CharacterList = () => {
           component={
             <>
               {characterPages?.pages.map((page) =>
-                page.data.results.map(
-                  (character: CharacterType, index: number) => {
-                    return (
-                      <Card
-                        image={character.image}
-                        name={character.name}
-                        key={character.id}
-                      />
-                    );
-                  }
-                )
+                page.data.results.map((character: CharacterType) => {
+                  return (
+                    <Card
+                      image={character.image}
+                      name={character.name}
+                      key={character.id}
+                    />
+                  );
+                })
               )}
             </>
           }

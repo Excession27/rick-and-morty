@@ -22,9 +22,3 @@ export enum CharacterStatus {
   unknown = "unknown",
 }
 export type APICall<CharacterType> = Promise<AxiosResponse<CharacterType[]>>;
-
-export type ScrollEvent = {
-  target: {
-    scrollingElement: { scrollTop: number; scrollTopMax: number };
-  };
-};
