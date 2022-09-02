@@ -1,3 +1,3 @@
-import axios from "api/axiosInstance";
+import axiosClient from "api/axios";
 
-export const getCharacters = (query: string) => axios.get(query);
+export const getCharacters = (query: string) => axiosClient.get(query);
