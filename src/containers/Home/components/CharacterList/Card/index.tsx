@@ -1,6 +1,8 @@
 import React from "react";
 
-const Card = ({ image, name }: { image: string; name: string }) => {
+type CardDataType = { image: string; name: string };
+
+const Card = ({ image, name }: CardDataType) => {
   return (
     <div
       className={`flex ${
@@ -8,9 +10,7 @@ const Card = ({ image, name }: { image: string; name: string }) => {
       } flex-col rounded-lg bg-white`}
     >
       <img className="flex-shrink rounded-t-lg" src={image} alt="" />
-      <h2 className="name flex-grow p-4 font-bold">
-        {name === "error" ? "Not found" : name}
-      </h2>
+      <h2 className="name flex p-4 font-bold">{name}</h2>
     </div>
   );
 };

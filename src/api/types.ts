@@ -9,7 +9,7 @@ export type PageDataType = {
 
 type PageInfoType = {
   count: number;
-  pages: 42;
+  pages: number;
   next: string | null;
   prev: string | null;
 };

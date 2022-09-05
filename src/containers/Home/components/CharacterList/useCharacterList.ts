@@ -1,8 +1,13 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 import { PageDataType } from "api/types";
 import useDebounce from "../../../../hooks/useDebounce/useDebounce";
 import { getCharacters } from "api/characters";
+
+type FilterDataType = {
+  name: string;
+  status: string;
+};
 
 // When searching/filtering pass the query with inputs, for subsequent pages just pass the params
 const getQuery = (name: string, status: string, param: string): string => {
@@ -15,10 +20,7 @@ const getQuery = (name: string, status: string, param: string): string => {
 };
 
 const useCharacterList = () => {
-  const [filter, setFilter] = useState<{
-    name: string;
-    status: string;
-  }>({
+  const [filter, setFilter] = useState<FilterDataType>({
     name: "",
     status: "",
   });
@@ -61,25 +63,26 @@ const useCharacterList = () => {
     }
   );
 
+  // Determine if scrollbar has come to the end of the page
+  const loadOnScroll = useCallback(() => {
+    const scrollTop = document.scrollingElement!.scrollTop;
+    const scrollTopMax =
+      document.scrollingElement!.scrollHeight -
+      document.scrollingElement!.clientHeight -
+      20;
+    if (scrollTop >= scrollTopMax) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage]);
+
   // Check to see viewport position in order to fetch next page
   useEffect(() => {
-    const loadOnScroll = () => {
-      const scrollTop = document.scrollingElement!.scrollTop;
-      const scrollTopMax =
-        document.scrollingElement!.scrollHeight -
-        document.scrollingElement!.clientHeight -
-        20;
-      if (scrollTop >= scrollTopMax) {
-        fetchNextPage();
-      }
-    };
-
     window.addEventListener("scroll", loadOnScroll);
 
     return () => {
       window.removeEventListener("scroll", loadOnScroll);
     };
-  }, [fetchNextPage]);
+  }, [fetchNextPage, loadOnScroll]);
 
   const debouncedSearch = useDebounce(search, 400);
 

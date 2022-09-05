@@ -4,10 +4,10 @@ import CharacterList from "./components/CharacterList/CharacterList";
 
 const Home = () => {
   return (
-    <div>
+    <>
       <Header />
       <CharacterList />
-    </div>
+    </>
   );
 };
 

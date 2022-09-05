@@ -4,11 +4,11 @@ import { ReactQueryDevtools } from "react-query/devtools";
 
 const queryClient = new QueryClient();
 
-export default function ReactQueryProvider({
-  children,
-}: {
+type QueryUsers = {
   children: ReactNode;
-}) {
+};
+
+export default function ReactQueryProvider({ children }: QueryUsers) {
   return (
     <QueryClientProvider client={queryClient}>
       {children}

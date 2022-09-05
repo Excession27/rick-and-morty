@@ -14,8 +14,8 @@ export type CharacterType = {
 };
 
 export enum CharacterStatus {
-  any = "",
-  alive = "alive",
-  dead = "dead",
-  unknown = "unknown",
+  Any = "",
+  Alive = "alive",
+  Dead = "dead",
+  Unknown = "unknown",
 }

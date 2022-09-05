@@ -13,9 +13,9 @@ const AsyncComponent: FC<IAsyncComponent> = ({
   skeleton,
 }) => {
   if (status === "loading") {
-    return skeleton ? skeleton : <p>"Loading..."</p>;
+    return skeleton || <p>"Loading..."</p>;
   } else if (status === "error") {
-    return skeleton ? skeleton : <p>"No data found."</p>;
+    return <p className=" text-lg font-bold">No characters found.</p>;
   }
 
   return component;
