@@ -1,10 +1,12 @@
 import React, { ChangeEvent } from "react";
-import useCharacterList from "containers/Home/components/CharacterList/useCharacterList";
 import { CharacterStatus } from "api/characters/types";
 
-const SearchFilter = () => {
-  const { setFilterStatus, setSearch } = useCharacterList();
+type SearchFilterDataType = {
+  setFilterStatus: (data: string) => void;
+  setSearch: (data: string) => void;
+};
 
+const SearchFilter = ({ setFilterStatus, setSearch }: SearchFilterDataType) => {
   return (
     <div
       id="serach-and-filter"

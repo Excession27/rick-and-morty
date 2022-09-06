@@ -7,11 +7,12 @@ import { CharacterType } from "api/characters/types";
 import useCharacterList from "containers/Home/components/CharacterList/useCharacterList";
 
 const CharacterList = () => {
-  const { characterPages, charactersStatus } = useCharacterList();
+  const { setFilterStatus, setSearch, characterPages, charactersStatus } =
+    useCharacterList();
 
   return (
     <div className="w-full bg-slate-300">
-      <SearchFilter />
+      <SearchFilter setFilterStatus={setFilterStatus} setSearch={setSearch} />
       <div
         id="card-container"
         className="grid h-[calc(100%_-_192px)] min-h-[calc(100vh_-_192px)] grid-flow-row grid-rows-2 gap-4 px-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"

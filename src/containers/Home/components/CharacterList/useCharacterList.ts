@@ -9,16 +9,6 @@ type FilterDataType = {
   status: string;
 };
 
-// When searching/filtering pass the query with inputs, for subsequent pages just pass the params
-const getQuery = (name: string, status: string, param: string): string => {
-  let query: string = `character/?name=${name}&status=${status}`;
-  let firstRun: boolean = param.length < 10;
-
-  if (!firstRun) query = param;
-
-  return query;
-};
-
 const useCharacterList = () => {
   const [filter, setFilter] = useState<FilterDataType>({
     name: "",
@@ -40,24 +30,15 @@ const useCharacterList = () => {
     fetchNextPage,
   } = useInfiniteQuery<PageDataType>(
     ["filter-query", filter],
-    async ({ pageParam = "character" }) => {
-      return getCharacters(getQuery(filter.name, filter.status, pageParam));
+    async ({ pageParam }) => {
+      return getCharacters(filter.name, filter.status, pageParam);
     },
     {
-      getPreviousPageParam: (firstPage) => {
-        if (firstPage.data.info.prev) {
-          const prev = firstPage.data.info.prev?.split(
-            "https://rickandmortyapi.com/api/"
-          );
-          return prev[1];
-        }
-      },
       getNextPageParam: (lastPage) => {
         if (lastPage.data.info.next) {
-          const next = lastPage.data.info.next?.split(
-            "https://rickandmortyapi.com/api/"
-          );
-          return next[1];
+          // return page number from URL
+          const params = new URL(lastPage.data.info.next).searchParams;
+          return params.get("page");
         }
       },
     }
