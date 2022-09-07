@@ -28,6 +28,7 @@ const useCharacterList = () => {
     data: characterPages,
     status: charactersStatus,
     fetchNextPage,
+    isFetchingNextPage,
   } = useInfiniteQuery<PageDataType>(
     ["filter-query", filter],
     async ({ pageParam }) => {
@@ -51,10 +52,10 @@ const useCharacterList = () => {
       document.scrollingElement!.scrollHeight -
       document.scrollingElement!.clientHeight -
       20;
-    if (scrollTop >= scrollTopMax) {
+    if (scrollTop >= scrollTopMax && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [fetchNextPage]);
+  }, [fetchNextPage, isFetchingNextPage]);
 
   // Check to see viewport position in order to fetch next page
   useEffect(() => {
